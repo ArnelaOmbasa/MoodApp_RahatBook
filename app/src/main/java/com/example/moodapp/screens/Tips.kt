@@ -23,7 +23,7 @@ fun Tips() {
         contentAlignment = Alignment.Center
     ) {
         Text(
-            text = "amina",
+            text = "Arnela",
             fontSize = MaterialTheme.typography.bodySmall.fontSize,
             fontWeight = FontWeight.Bold,
             color = Color.White
