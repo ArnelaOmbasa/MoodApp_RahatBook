@@ -57,7 +57,7 @@ fun Notes() {
             topBar = { TopAppBar(title = { Text("My Notes") }) },
             content = {
                 Column(
-                    modifier = Modifier.padding(16.dp)
+                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 25.dp)
                 ) {
                     Text(text = "List of Notes")
                     Spacer(modifier = Modifier.height(16.dp))
