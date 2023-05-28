@@ -4,7 +4,8 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.bottomnavbardemo.screens.MoodTracker
+//import com.example.bottomnavbardemo.screens.MoodTracker
+import com.example.moodapp.screens.MoodTracker
 import com.example.moodapp.screens.Notes
 import com.example.moodapp.screens.Tips
 
@@ -36,7 +37,7 @@ fun BottomNavGraph(navController: NavHostController) {
         startDestination = BottomNav.MoodTracker.route
     ) {
         composable(route = BottomNav.MoodTracker.route) {
-            MoodTracker()
+            CalenderScreen()
         }
         composable(route = BottomNav.Tips.route) {
             Tips()
