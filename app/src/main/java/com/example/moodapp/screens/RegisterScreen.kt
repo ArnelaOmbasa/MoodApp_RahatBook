@@ -15,6 +15,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavHostController
+import com.example.moodapp.Screen
 import com.example.moodapp.UserViewModel
 import kotlinx.coroutines.launch
 
@@ -43,7 +44,7 @@ fun RegisterScreen(navController: NavHostController, viewModel: UserViewModel) {
         Button(onClick = {
             viewModel.viewModelScope.launch {
                 viewModel.register(username, password)
-                navController.navigate("login_screen")
+                navController.navigate(Screen.LoginScreen.route)
             }
         }) {
             Text("Register")

@@ -14,6 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.example.moodapp.Screen
 
 @Composable
 fun WelcomeScreen(navController: NavHostController) {
@@ -21,11 +22,11 @@ fun WelcomeScreen(navController: NavHostController) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Text(text = "Welcome to RahatBook", style = MaterialTheme.typography.bodyMedium)
             Spacer(modifier = Modifier.height(16.dp))
-            Button(onClick = { navController.navigate("login_screen") }) {
+            Button(onClick = { navController.navigate(Screen.LoginScreen.route) }) {
                 Text(text = "Login")
             }
             Spacer(modifier = Modifier.height(8.dp))
-            TextButton(onClick = { navController.navigate("register_screen") }) {
+            TextButton(onClick = { navController.navigate(Screen.RegisterScreen.route) }) {
                 Text(text = "Create an account")
             }
         }

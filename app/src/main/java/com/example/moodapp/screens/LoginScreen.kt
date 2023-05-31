@@ -18,6 +18,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavHostController
 import com.example.moodapp.BottomNav
+import com.example.moodapp.Screen
 import com.example.moodapp.UserViewModel
 import kotlinx.coroutines.launch
 
@@ -56,7 +57,7 @@ fun LoginScreen(navController: NavHostController, viewModel: UserViewModel) {
 
         }
 
-        TextButton(onClick = { navController.navigate("register_screen") }) {
+        TextButton(onClick = { navController.navigate(Screen.RegisterScreen.route) }) {
             Text("Create an account")
         }
     }

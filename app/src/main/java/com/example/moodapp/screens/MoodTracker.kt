@@ -51,8 +51,9 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
+import com.example.moodapp.R
 //import androidx.constraintlayout.widget.ConstraintLayout
-import com.example.busschedule.R
+
 //import com.example.lunchtray.R
 import com.example.moodapp.data.Event
 import com.example.moodapp.data.Mood

@@ -28,7 +28,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.busschedule.R
+
+import com.example.moodapp.R
 import com.example.moodapp.ui.theme.Pinky
 
 
@@ -61,7 +62,12 @@ fun Tips() {
                     R.drawable.use_viualization
 */
             R.drawable.slika1,
-            R.drawable.slika2
+            R.drawable.slika2,
+            R.drawable.slika3,
+            R.drawable.slika4,
+            R.drawable.slika5,
+            R.drawable.slika6,
+            R.drawable.slika7
 
 
         )
@@ -78,7 +84,7 @@ fun Tips() {
                 painter = painterResource(id = randomImageId),
                 contentDescription = null,
                 modifier = Modifier
-                    .size(500.dp)
+                    .size(550.dp)
                     .clip(shape = androidx.compose.foundation.shape.RoundedCornerShape(8.dp)),
                // contentScale = ContentScale.Crop
             )

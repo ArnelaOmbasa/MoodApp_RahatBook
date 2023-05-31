@@ -43,6 +43,7 @@ fun GreetingPreview() {
         MainScreen()
     }}
 */
+package com.example.moodapp
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
