@@ -84,7 +84,7 @@ fun Tips() {
                 painter = painterResource(id = randomImageId),
                 contentDescription = null,
                 modifier = Modifier
-                    .size(550.dp)
+                    .size(450.dp)
                     .clip(shape = androidx.compose.foundation.shape.RoundedCornerShape(8.dp)),
                // contentScale = ContentScale.Crop
             )
