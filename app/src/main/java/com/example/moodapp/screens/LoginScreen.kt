@@ -23,7 +23,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -106,23 +105,23 @@ fun LoginScreen(navController: NavHostController, viewModel: UserViewModel = vie
                 modifier = Modifier.width(150.dp),
                 colors = ButtonDefaults.buttonColors(Color.Magenta),
                 onClick = {
-                if (username.isBlank() || password.isBlank()) {
-                    viewModel.viewModelScope.launch {
-                        snackbarHostState.showSnackbar("Username or password cannot be empty")
-                    }
-                } else {
-                    viewModel.viewModelScope.launch {
-                        val loginSuccessful = viewModel.login(username, password)
-                        if (loginSuccessful) {
-                            navController.navigate(BottomNav.MoodTracker.route)
-                        } else {
-                            snackbarHostState.showSnackbar("Invalid username or password")
+                    if (username.isBlank() || password.isBlank()) {
+                        viewModel.viewModelScope.launch {
+                            snackbarHostState.showSnackbar("Username or password cannot be empty")
+                        }
+                    } else {
+                        viewModel.viewModelScope.launch {
+                            val loginSuccessful = viewModel.login(username, password)
+                            if (loginSuccessful) {
+                                navController.navigate(BottomNav.MoodTracker.route)
+                            } else {
+                                snackbarHostState.showSnackbar("Invalid username or password")
+                            }
                         }
                     }
-                }
-        },
+                },
 
-            ) {
+                ) {
                 Text("Log In")
             }
 

@@ -25,6 +25,7 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.TextField*/
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
@@ -65,15 +66,10 @@ fun MoodTracker(date: String) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.Magenta),
+            .background(Color.White),
         contentAlignment = Alignment.Center
     ) {
-        /*Text(
-            text = "MOODTRACKER",
-            fontSize = MaterialTheme.typography.h3.fontSize,
-            fontWeight = FontWeight.Bold,
-            color = Color.White
-        )*/
+
         val dbHelper = DBHelper(LocalContext.current)
         var dialogState by remember { mutableStateOf(false) }
         val eventList = dbHelper.fetchEventsFromDate(date)
@@ -95,9 +91,102 @@ fun MoodTracker(date: String) {
         }
     }
 }
-    @Composable
-    fun ShowList(list: List<Event>, openDialog: () -> Unit) {
-        Column(modifier = Modifier.fillMaxSize()) {
+@Composable
+fun ShowList(list: List<Event>, openDialog: () -> Unit) {
+    Column(modifier = Modifier.fillMaxSize()) {
+
+        Image(
+
+            modifier = Modifier
+                .align(Alignment.CenterHorizontally)
+                .padding(10.dp)
+                .size(60.dp, 60.dp)
+                .clickable { openDialog.invoke() },
+            painter = painterResource(id = R.drawable.add_icon_free_vector),
+            contentDescription = "add event"
+        )
+
+
+        Column(
+            modifier = Modifier
+                .fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            LazyColumn {
+                items(list) {
+                    EventItem(it)
+                }
+            }
+        }
+    }
+
+}
+
+private fun getImageVectorFromMood(mood: Mood): Int {
+    return when(mood) {
+        Mood.HAPPY -> R.drawable.happy
+        Mood.SAD -> R.drawable.sad
+        Mood.ANGRY -> R.drawable.angry
+    }
+}
+
+@Composable
+fun EventItem(event: Event) {
+
+    val imageVector = ImageVector.vectorResource(id = getImageVectorFromMood(event.mood))
+
+    Card(modifier = Modifier
+        .fillMaxSize()
+        .padding(20.dp)
+        .border(3.dp, Purple40)
+    ) {
+
+        ConstraintLayout(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp)
+        ) {
+            val (lable, iconView) = createRefs()
+            Text(
+                text= event.name,
+                color = MaterialTheme.colorScheme.onSurface,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .constrainAs(lable) {
+                        top.linkTo(parent.top)
+                        bottom.linkTo(parent.bottom)
+                        start.linkTo(parent.start)
+                        end.linkTo(iconView.start)
+                        width = Dimension.fillToConstraints
+                    }
+            )
+
+            Icon(
+                imageVector = imageVector,
+                contentDescription ="calender icon",
+                modifier = Modifier
+                    .size(40.dp, 40.dp)
+                    .constrainAs(iconView) {
+                        end.linkTo(parent.end)
+                        top.linkTo(parent.top)
+                        bottom.linkTo(parent.bottom)
+                    },
+                tint = LocalContentColor.current
+            )
+        }
+    }
+}
+
+@Composable
+fun EmptyEvent( openDialog: () -> Unit ) {
+
+    Column(modifier = Modifier.fillMaxSize()) {
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(text = "List is empty Please add the Event")
 
             Image(
                 modifier = Modifier
@@ -105,190 +194,101 @@ fun MoodTracker(date: String) {
                     .padding(10.dp)
                     .size(60.dp, 60.dp)
                     .clickable { openDialog.invoke() },
-                painter = painterResource(id = R.drawable.add),
-                contentDescription = "add event"
-            )
+                painter = painterResource(id = R.drawable.add_icon_free_vector),
+                contentDescription = "add event" )
+        }
+    }
+}
 
+@Composable
+fun AddEvent(
+    date: String,
+    dbHelper: DBHelper,
+    closeDialog: () -> Unit
+) {
+    val moodList: List<Mood> = listOf(Mood.HAPPY, Mood.SAD, Mood.ANGRY)
+    var eventName by remember { mutableStateOf("") }
+    val selectedMood = remember { mutableStateOf(-1) }
 
+    Dialog(
+        onDismissRequest = { closeDialog.invoke() },
+        properties = DialogProperties(
+            dismissOnBackPress = true,
+            dismissOnClickOutside = false
+        )
+    ) {
+
+        Surface() {
             Column(
-                modifier = Modifier
-                    .fillMaxSize(),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                LazyColumn {
-                    items(list) {
-                        EventItem(it)
-                    }
-                }
-            }
-        }
-
-    }
-
-    private fun getImageVectorFromMood(mood: Mood): Int {
-        return when(mood) {
-            Mood.HAPPY -> R.drawable.happy
-            Mood.SAD -> R.drawable.sad
-            Mood.ANGRY -> R.drawable.angry
-        }
-    }
-
-    @Composable
-    fun EventItem(event: Event) {
-
-        val imageVector = ImageVector.vectorResource(id = getImageVectorFromMood(event.mood))
-
-        Card(modifier = Modifier
-            .fillMaxSize()
-            .padding(20.dp)
-            .border(3.dp, Purple40)
-        ) {
-
-            ConstraintLayout(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(16.dp)
-            ) {
-                val (lable, iconView) = createRefs()
-                Text(
-                    text= event.name,
-                    color = MaterialTheme.colorScheme.onSurface,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .constrainAs(lable) {
-                            top.linkTo(parent.top)
-                            bottom.linkTo(parent.bottom)
-                            start.linkTo(parent.start)
-                            end.linkTo(iconView.start)
-                            width = Dimension.fillToConstraints
-                        }
-                )
-
-                Icon(
-                    imageVector = imageVector,
-                    contentDescription ="calender icon",
-                    modifier = Modifier
-                        .size(40.dp, 40.dp)
-                        .constrainAs(iconView) {
-                            end.linkTo(parent.end)
-                            top.linkTo(parent.top)
-                            bottom.linkTo(parent.bottom)
-                        },
-                    tint = LocalContentColor.current
-                )
-            }
-        }
-    }
-
-    @Composable
-    fun EmptyEvent( openDialog: () -> Unit ) {
-
-        Column(modifier = Modifier.fillMaxSize()) {
-            Column(
-                modifier = Modifier.fillMaxSize(),
-                verticalArrangement = Arrangement.Center,
+                    .padding(10.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text(text = "List is empty Please add the Event")
 
-                Image(
-                    modifier = Modifier
-                        .align(Alignment.CenterHorizontally)
-                        .padding(10.dp)
-                        .size(60.dp, 60.dp)
-                        .clickable { openDialog.invoke() },
-                    painter = painterResource(id = R.drawable.add),
-                    contentDescription = "add event" )
-            }
-        }
-    }
+                TextField(value = eventName, onValueChange = { eventName = it })
 
-    @Composable
-    fun AddEvent(
-        date: String,
-        dbHelper: DBHelper,
-        closeDialog: () -> Unit
-    ) {
-        val moodList: List<Mood> = listOf(Mood.HAPPY, Mood.SAD, Mood.ANGRY)
-        var eventName by remember { mutableStateOf("") }
-        val selectedMood = remember { mutableStateOf(-1) }
+                Spacer(modifier = Modifier.padding(10.dp))
 
-        Dialog(
-            onDismissRequest = { closeDialog.invoke() },
-            properties = DialogProperties(
-                dismissOnBackPress = true,
-                dismissOnClickOutside = false
-            )
-        ) {
-
-            Surface() {
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(10.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Center
                 ) {
-
-                    TextField(value = eventName, onValueChange = { eventName = it })
-
-                    Spacer(modifier = Modifier.padding(10.dp))
-
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.Center
-                    ) {
-                        for (i in moodList.indices) {
-                            if (selectedMood.value == i) {
-                                Icon(
-                                    modifier = Modifier
-                                        .padding(10.dp)
-                                        .clickable { selectedMood.value = i },
-                                    imageVector =  ImageVector.vectorResource(id = getImageVectorFromMood(
-                                        moodList[i]
-                                    )),
-                                    contentDescription ="calender icon",
-                                    tint = Color.Green
-                                )
-                            } else {
-                                Icon(
-                                    modifier = Modifier
-                                        .padding(10.dp)
-                                        .clickable { selectedMood.value = i },
-                                    imageVector =  ImageVector.vectorResource(id = getImageVectorFromMood(
-                                        moodList[i]
-                                    )),
-                                    contentDescription ="calender icon",
-                                    tint = LocalContentColor.current
-                                )
-                            }
+                    for (i in moodList.indices) {
+                        if (selectedMood.value == i) {
+                            Icon(
+                                modifier = Modifier
+                                    .padding(10.dp)
+                                    .clickable { selectedMood.value = i },
+                                imageVector =  ImageVector.vectorResource(id = getImageVectorFromMood(
+                                    moodList[i]
+                                )),
+                                contentDescription ="calender icon",
+                                tint = Color.Green
+                            )
+                        } else {
+                            Icon(
+                                modifier = Modifier
+                                    .padding(10.dp)
+                                    .clickable { selectedMood.value = i },
+                                imageVector =  ImageVector.vectorResource(id = getImageVectorFromMood(
+                                    moodList[i]
+                                )),
+                                contentDescription ="calender icon",
+                                tint = LocalContentColor.current
+                            )
                         }
                     }
+                }
 
-                    Column(modifier = Modifier.fillMaxWidth()) {
+                Column(modifier = Modifier.fillMaxWidth()) {
 
-                        Button(
-                            onClick = {
-                                dbHelper.addEvent(
-                                    date = date,
-                                    event = Event(eventName, Mood.values()[selectedMood.value])
-                                )
-                                closeDialog.invoke()
-                            }
-                        ) {
-                            Text(text = "ADD")
-                        }
+                    Button(
+                        onClick = {
+                            dbHelper.addEvent(
+                                date = date,
+                                event = Event(eventName, Mood.values()[selectedMood.value])
+                            )
+                            closeDialog.invoke()
+                        },
+                        colors = ButtonDefaults.buttonColors(Color.Magenta)
+                    ) {
+                        Text(text = "ADD")
+                    }
 
 
-                        Button(onClick = { closeDialog.invoke() }
-                        ) {
-                            Text(text = "CANCEL")
-                        }
+                    Button(onClick = { closeDialog.invoke() },
+                        colors = ButtonDefaults.buttonColors(Color.Magenta),
+                    ) {
+                        Text(text = "CANCEL")
                     }
 
                 }
+
             }
         }
     }
+}
 
 /*
 @Composable

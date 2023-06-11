@@ -8,11 +8,8 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
-
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
-
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -25,12 +22,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import com.example.moodapp.BottomNav
 import com.example.moodapp.R
 import com.example.moodapp.Screen
 import com.example.moodapp.UserViewModel
@@ -38,7 +33,7 @@ import kotlinx.coroutines.launch
 
 
 
-//@OptIn(ExperimentalMaterial3Api::class)
+
 @Composable
 fun RegisterScreen(navController: NavHostController, viewModel: UserViewModel = viewModel()) {
     var username by remember { mutableStateOf("") }
@@ -110,7 +105,7 @@ fun RegisterScreen(navController: NavHostController, viewModel: UserViewModel = 
                 color = Color.Magenta
             )
 
-         TextField (
+            TextField (
                 value = confirmPassword,
                 onValueChange = { confirmPassword = it },
                 label = { Text("Confirm Password") },
